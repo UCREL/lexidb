@@ -13,6 +13,14 @@ Build using the following command in the project directroy;
 $ gradle build
 ```
 
+## Running on Docker
+
+There is a docker instance of LexiDB which can be ran using the following command:
+
+``` bash
+docker run -it -p 127.0.0.1:3000:1189 --rm ucrel/lexidb:0.0.1
+```
+
 ## Deploy
 
 Deploy locally;
@@ -20,6 +28,19 @@ Deploy locally;
 ```
 $ java -jar build/libs/lexidb-2.0.jar /path/to/app.properties
 ```
+
+```
+docker run -it -p 127.0.0.1:3000:1189 --rm lexidb:0.0.1
+```
+
+```
+docker run -it -p 127.0.0.1:3000:1189 --init --entrypoint "java" --rm lexidb:0.0.1 -Xmx8g -jar lexidb-2.0.jar ./app.properties
+```
+
+```
+docker run -it -p 127.0.0.1:3000:1189 --init --entrypoint "java" --memory=8g --memory-swap=8g --rm lexidb:0.0.1 -Xmx8g -jar lexidb-2.0.jar ./app.properties
+```
+
 
 ## Test
 

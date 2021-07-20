@@ -1,4 +1,4 @@
-FROM openjdk:12-ea-jdk-alpine3.9 AS build
+FROM openjdk:12-jdk-alpine3.9 AS build
 
 RUN apk add --no-cache wget unzip
 

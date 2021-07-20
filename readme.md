@@ -4,10 +4,10 @@
 ![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/matthewcoole/lexidb.svg?logo=lgtm&logoWidth=18)
 ## Build
 ### Required
-- [Java JDK 1.12+](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-- [Gradle](https://maven.apache.org/)
+- [Java JDK 12](https://jdk.java.net/archive/) (In the docker build we used OpenJDK not Oracle as it is licensed under [GPLv2 + Classpath Exception](https://openjdk.java.net/legal/gplv2+ce.html)). Further in the current docker image we build with Java JDK 12 **alpine Operating System (OS)**, **but** run the LexiDB jar file using [Java JDK 16 **alpine OS** from OpenJDK](https://openjdk.java.net/projects/jdk/16/), the reason for using the Alpine OS is that it is smaller in size and [tends to have fewer security vulnerabilities compared to other Operating Systems.](https://snyk.io/blog/docker-for-java-developers/)
+- [Gradle](https://gradle.org/)
 
-Build using the following command in the project directroy;
+Build using the following command in the project directory;
 
 ```
 $ gradle build

@@ -30,7 +30,7 @@ There is a docker instance of LexiDB which can be ran using the following comman
 docker run -it -p 127.0.0.1:3000:1189 --rm --init ghcr.io/ucrel/lexidb:latest
 ```
 
-By default it uses the [app.properties from ](./src/main/resources/app.properties).
+By default it uses the [app.properties from ./src/main/resources/app.properties](./src/main/resources/app.properties).
 
 ### Custom docker run command examples
 

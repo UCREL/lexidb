@@ -1,4 +1,4 @@
-FROM openjdk:12-ea-jdk-alpine AS build
+FROM openjdk:12-ea-jdk-alpine3.9 AS build
 
 RUN apk add --no-cache wget unzip
 
@@ -23,7 +23,7 @@ RUN gradle build
 
 
 
-FROM openjdk:16-alpine
+FROM openjdk:16-alpine3.13
 
 RUN addgroup --system java_user && adduser -S -s /bin/false -G java_user java_user
 RUN mkdir /lexidb \

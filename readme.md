@@ -13,13 +13,6 @@ Build using the following command in the project directroy;
 $ gradle build
 ```
 
-## Running on Docker
-
-There is a docker instance of LexiDB which can be ran using the following command:
-
-``` bash
-docker run -it -p 127.0.0.1:3000:1189 --rm ucrel/lexidb:0.0.1
-```
 
 ## Deploy
 
@@ -29,18 +22,31 @@ Deploy locally;
 $ java -jar build/libs/lexidb-2.0.jar /path/to/app.properties
 ```
 
-```
-docker run -it -p 127.0.0.1:3000:1189 --rm lexidb:0.0.1
+## Running on Docker
+
+There is a docker instance of LexiDB which can be ran using the following command, this Docker instance was built from the [Dockerfile](./Dockerfile):
+
+``` bash
+docker run -it -p 127.0.0.1:3000:1189 --rm --init ghcr.io/ucrel/lexidb:latest
 ```
 
-```
-docker run -it -p 127.0.0.1:3000:1189 --init --entrypoint "java" --rm lexidb:0.0.1 -Xmx8g -jar lexidb-2.0.jar ./app.properties
-```
+By default it uses the [app.properties from ](./src/main/resources/app.properties).
+
+### Custom docker run command examples
+
+#### Different memory settings
+
+To run the docker instance with a custom java maximum memory allocation of 6GB:
 
 ```
-docker run -it -p 127.0.0.1:3000:1189 --init --entrypoint "java" --memory=8g --memory-swap=8g --rm lexidb:0.0.1 -Xmx8g -jar lexidb-2.0.jar ./app.properties
+docker run -it -p 127.0.0.1:3000:1189 --init --entrypoint "java" --rm ghcr.io/ucrel/lexidb:latest -Xmx6g -jar lexidb-2.0.jar ./app.properties
 ```
 
+To run the docker instance with a custom java maximum memory allocation of 6GB and total docker memory usage of 8GB:
+
+```
+docker run -it -p 127.0.0.1:3000:1189 --init --entrypoint "java" --memory=8g --memory-swap=8g --rm ghcr.io/ucrel/lexidb:latest -Xmx6g -jar lexidb-2.0.jar ./app.properties
+```
 
 ## Test
 

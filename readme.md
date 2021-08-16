@@ -52,7 +52,7 @@ docker run -it -p 127.0.0.1:3000:1189 --init --entrypoint "java" --memory=8g --m
 
 If you would like to import data into LexiDB without having to use the web API, you can do this through the java insert script. The java insert script converts the data files you want to import into a format that LexiDB can read. The insert script takes 3 arguments:
 
-1. File path to a `app.properties` files.
+1. File path to a `app.properties` file.
 2. Name of the corpus / database. This is equivalent to the name of the database in a MySQL database.
 3. File path to the corpus configuration file.
 4. File path to the files to insert.

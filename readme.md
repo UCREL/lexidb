@@ -48,6 +48,14 @@ To run the docker instance with a custom java maximum memory allocation of 6GB a
 docker run -it -p 127.0.0.1:3000:1189 --init --entrypoint "java" --memory=8g --memory-swap=8g --rm ghcr.io/ucrel/lexidb:latest -Xmx6g -jar lexidb-2.0.jar ./app.properties
 ```
 
+### Build Docker
+
+If you would like to build the docker image locally:
+
+``` bash
+docker build -t NAME:TAG .
+```
+
 ## Test
 
 You can test whether the server is running by making a simple API call in your browser; [http://localhost:1189/api/test](http://localhost:1189/api/test)

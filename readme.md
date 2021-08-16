@@ -48,6 +48,21 @@ To run the docker instance with a custom java maximum memory allocation of 6GB a
 docker run -it -p 127.0.0.1:3000:1189 --init --entrypoint "java" --memory=8g --memory-swap=8g --rm ghcr.io/ucrel/lexidb:latest -Xmx6g -jar lexidb-2.0.jar ./app.properties
 ```
 
+#### Formatting / Importing data
+
+If you would like to import data into LexiDB without having to use the web API, you can do this through the java insert script. The java insert script converts the data files you want to import into a format that LexiDB can read. The insert script takes 3 arguments:
+
+1. File path to a `app.properties` files.
+2. Name of the corpus / database. This is equivalent to the name of the database in a MySQL database.
+3. File path to the corpus configuration file.
+4. File path to the files to insert.
+
+``` bash
+docker run -v $(pwd)/test_data:/lexidb/lexi-data --entrypoint "java" --rm ghcr.io/ucrel/lexidb:latest -cp lexidb-2.0.jar util/Insert /lexidb/lexi-data/app.properties example /lexidb/lexi-data/.conf.json /lexidb/lexi-data
+```
+
+In the command above we have created a new database called `example` whereby the [`/lexidb/lexi-data/app.properties`](./test_data/app.properties) states that this `example` corpus will be stored on the docker container in the folder `/lexidb/data` within the folder `/lexidb/data/example`. 
+
 ### Build Docker
 
 If you would like to build the docker image locally:

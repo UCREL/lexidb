@@ -2,7 +2,9 @@
 ![Build Status](https://github.com/matthewcoole/cdb/workflows/build/badge.svg)
 ![codecov](https://codecov.io/gh/matthewcoole/cdb/branch/master/graph/badge.svg?token=XdKEOwSdnQ) 
 ![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/matthewcoole/lexidb.svg?logo=lgtm&logoWidth=18)
+
 ## Build
+
 ### Required
 - [Java JDK 12](https://jdk.java.net/archive/) (In the docker build we used OpenJDK not Oracle as it is licensed under [GPLv2 + Classpath Exception](https://openjdk.java.net/legal/gplv2+ce.html)). Further in the current docker image we build with Java JDK 12 **alpine Operating System (OS)**, **but** run the LexiDB jar file using [Java JDK 16 **alpine OS** from OpenJDK](https://openjdk.java.net/projects/jdk/16/), the reason for using the Alpine OS is that it is smaller in size and [tends to have fewer security vulnerabilities compared to other Operating Systems.](https://snyk.io/blog/docker-for-java-developers/)
 - [Gradle version 5.2](https://gradle.org/)
@@ -30,7 +32,9 @@ There is a docker instance of LexiDB which can be ran using the following comman
 docker run -it -p 127.0.0.1:3000:1189 --rm --init ghcr.io/ucrel/lexidb:latest
 ```
 
-By default it uses the [app.properties from ./src/main/resources/app.properties](./src/main/resources/app.properties).
+By default it uses the [app.properties from ./src/main/resources/app.properties](./src/main/resources/app.properties). 
+
+For more detail on the configuration settings within [app.properties see the app properties section below.](#app-properties)
 
 ### Custom docker run command examples
 
@@ -50,7 +54,7 @@ docker run -it -p 127.0.0.1:3000:1189 --init --entrypoint "java" --memory=8g --m
 
 #### Formatting / Importing data
 
-If you would like to import data into LexiDB without having to use the web API, you can do this through the java insert script. The java insert script converts the data files you want to import into a format that LexiDB can read. The insert script takes 3 arguments:
+If you would like to import data into LexiDB without having to use the web API, you can do this through the [java insert script](./src/main/java/util/Insert.java). The java insert script converts the data files you want to import into a format that LexiDB can read. The insert script takes 4 arguments:
 
 1. File path to a `app.properties` file.
 2. Name of the corpus / database. This is equivalent to the name of the database in a MySQL database.
@@ -135,3 +139,40 @@ POST /mycorpus/query
 ```
 
 This will query the `"tokens"` table and the `"pos"` (part-of-speech) column for the value `"JJ"` and return the results in the form of a `"kwic"` (keyword in context).
+
+## App Properties
+
+The app.properties file should be a JSON file with the following keys, if any of keys are missing in the file the default value will be used, if no file is given the default values will be used:
+
+| Key | Default Value | Description |
+|-----|---------------|-------------|
+| `block.cache.size` | 100 | |
+| `block.cache.timeout` | 1000 | |
+| `corpus.cache.size` | 10 | |
+| `corpus.cache.timeout` | 1000 | |
+| `result.cache.size` | 100 | |
+| `result.cache.timeout` | 30 | |
+| `data.path` | lexi-data | Relative or absolute file path to the top level directory that LexiDB will use to store new and/or current data, if the directory does not exist it will create the directory. For more details on how to format / import data into LexiDB see the [formatting / importing data section above.](#formatting-importing-data) |
+| `kwic.context` | 5 | Default context size for Key Word In Context (KWIC) searches. With the default this would result in 5 words before and after the key word. |
+| `result.page.size` | 100 | Default number of KWIC results to display per page when querying the KWIC API. |
+| `block.size` | 10000000 | The number of words to store per block within LexiDB. The large this number is the more memory (RAM) your machine will require, but it will increase the speed of your queries. |
+
+## Performance
+
+One of the main key performance bottle necks with respect to query speed is the `block.size` that is set within [app.properties](#app-properties). The larger the block size the faster the querying, but it will require more memory (RAM).
+
+### Issues
+
+If you see an error like the one below, full error output can be found in the [example_performance_error.txt file](./example_performance_error.txt), then this is likely to be due to not having enough RAM allocated to the Java Virtual Machine (JVM). To increase the RAM allocation to the JVM use the `-Xmx` flag, on most Ubuntu machine the default value for `-Xmx` is ~4GB to increase it to 6GB use `-Xmx6g`.
+
+``` bash
+lexi_1  | 2021-08-24 07:29:19 ERROR server.Server:175 - QUERY FAILED!
+lexi_1  | com.fasterxml.jackson.databind.exc.MismatchedInputException: No content to map due to end-of-input
+lexi_1  |  at [Source: (String)""; line: 1, column: 0]
+lexi_1  | 	at com.fasterxml.jackson.databind.exc.MismatchedInputException.from(MismatchedInputException.java:59)
+lexi_1  | 	at com.fasterxml.jackson.databind.ObjectMapper._initForReading(ObjectMapper.java:4134)
+lexi_1  | 	at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:3988)
+lexi_1  | 	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:2992)
+lexi_1  | 	at io.javalin.translator.json.JavalinJacksonPlugin.toObject(Jackson.kt:27)
+lexi_1  | 	at io.javalin.Context.bodyAsClass(Context.kt:81)
+```

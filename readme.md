@@ -152,7 +152,7 @@ The app.properties file should be a JSON file with the following keys, if any of
 | `corpus.cache.timeout` | 1000 | |
 | `result.cache.size` | 100 | |
 | `result.cache.timeout` | 30 | |
-| `data.path` | lexi-data | Relative or absolute file path to the top level directory that LexiDB will use to store new and/or current data, if the directory does not exist it will create the directory. For more details on how to format / import data into LexiDB see the [formatting / importing data section above.](#formatting-importing-data) |
+| `data.path` | lexi-data | Relative or absolute file path to the top level directory that LexiDB will use to store new and/or current data, if the directory does not exist it will create the directory. For more details on how to format / import data into LexiDB see the [formatting / importing data section above.](#formatting--importing-data) |
 | `kwic.context` | 5 | Default context size for Key Word In Context (KWIC) searches. With the default this would result in 5 words before and after the key word. |
 | `result.page.size` | 100 | Default number of KWIC results to display per page when querying the KWIC API. |
 | `block.size` | 10000000 | The number of words to store per block within LexiDB. The large this number is the more memory (RAM) your machine will require, but it will increase the speed of your queries. |

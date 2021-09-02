@@ -59,7 +59,7 @@ If you would like to import data into LexiDB without having to use the web API, 
 1. File path to a `app.properties` file.
 2. Name of the corpus / database. This is equivalent to the name of the database in a MySQL database.
 3. File path to the corpus configuration file.
-4. File path to the files to insert.
+4. File path to the files to insert. The files are expected to be in `tsv` format, for more information on the format of the files see this [guide](https://github.com/matthewcoole/lexidb/wiki/Creating-a-schema).
 
 ``` bash
 docker run -v $(pwd)/test_data:/lexidb/lexi-data --entrypoint "java" --rm ghcr.io/ucrel/lexidb:latest -cp lexidb-2.0.jar util/Insert /lexidb/lexi-data/app.properties example /lexidb/lexi-data/.conf.json /lexidb/lexi-data

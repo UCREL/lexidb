@@ -159,7 +159,7 @@ The app.properties file should be a JSON file with the following keys, if any of
 
 ## Performance
 
-One of the main key performance bottle necks with respect to query speed is the `block.size` that is set within [app.properties](#app-properties). The larger the block size the faster the querying, but it will require more memory (RAM).
+One of the main key performance bottle necks with respect to query speed is the `block.size` that is set within [app.properties](#app-properties). The larger the block size the faster the querying, but it will require more memory (RAM). This additional RAM will also be required when formatting the data into these larger block sizes.
 
 ### Issues
 
